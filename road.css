@@ -1,0 +1,59 @@
+.menu{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-txt{
+    text-align: left;
+    font-size: 50px;
+}
+
+header{
+    margin: 0;
+    background-color: whitesmoke;
+}
+
+header:hover{
+    background-color: hotpink;
+}
+
+.container{
+    width: 1500px;
+    margin: 0 auto;
+}
+
+.image-svg{
+    width: 300px;
+    height: 300px;
+    justify-content: left;
+}
+
+ul{
+    line-height: 50px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-left: 0px;
+}
+
+a{
+    margin-right: 30px;
+    color: black;
+    text-decoration: none;
+    margin-left: 30px;
+    text-align: center;
+}
+
+a:hover{
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+li:hover{
+    background-color: lightcoral;
+}
+
+body{
+    margin: 0;
+    background-color: grey;
+}
