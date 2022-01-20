@@ -105,7 +105,7 @@ section{
     text-align: center;
     margin: 0%;
     font-size: 40px;
-    padding:30px;
+    padding: 3px;
 }
 
 .answer{
@@ -177,4 +177,13 @@ input:-moz-placeholder {
 input:-ms-input-placeholder {
     font-size: 22px;
     color: rgb(231, 216, 216);
+}
+
+footer{
+    padding: 20px;
+    text-align: center;
+    color: black;
+    background-color: coral;
+    font-size: 22px;
+    margin: 0;
 }

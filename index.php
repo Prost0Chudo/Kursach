@@ -40,13 +40,13 @@ error_reporting(E_ALL & ~E_NOTICE);
 <br>пожарных подразделений в городе Москве по месяцам.
 <br>В Государственную противопожарную службу в городе Москве входят:
 <br>- федеральная противопожарная служба на территории города Москвы;
-<br>- противопожарная служба города Москвы.<i>
+<br>- противопожарная служба города Москвы.</i>
 </div>
 </div>
 </section>
 <section>
 <div class="answer">
-<i>Введите дату<i>
+<i>Введите дату</i>
 <form name="a" method="GET" action="<?=$_SERVER['PHP_SELF']?>" width = 200px padding = 20px>
 <input class = "form_input" name="a" placeholder = "Пример: 2020-01-01">
 <input class = "form_button" type="submit">
@@ -58,8 +58,13 @@ error_reporting(E_ALL & ~E_NOTICE);
     $result = mysqli_query($connect, "SELECT * FROM `Call_Mounth` WHERE dataReport = '".$a."'");
     $stroka = mysqli_fetch_assoc($result);
     ?>
-    <p style= "margin:0">Количество вызовов пожарно-спасательных гарнизонов в <?php echo $a ?>:<br> <?php echo $stroka['callsCount'];?><p>
+    <p style= "margin:0"><i>Количество вызовов пожарно-спасательных гарнизонов в <?php echo $a ?>:<br> <?php echo $stroka['callsCount'];?></i><p>
 </div>
 </section>
+<footer class="footer">
+        <div class="container">
+            <b><i>&copy; Информация получена из баз открытых данных Москвы.</i></b>
+        </div>
+    </footer>
 </body>
 </html>
