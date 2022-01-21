@@ -50,7 +50,7 @@ body{
 }
 header{
     margin: 0;
-    background-color: whitesmoke;
+    background-color: rgba(245, 77, 77, 0.425);
 }
 
 header:hover{
@@ -96,7 +96,7 @@ section{
 .menu-txt{
     text-align: center;
     margin-right: 350px;
-    font-size: 50px;
+    font-size: 40px;
 }
 
 .db{
@@ -183,7 +183,7 @@ footer{
     padding: 20px;
     text-align: center;
     color: black;
-    background-color: coral;
+    background-color: rgba(245, 77, 77, 0.425);
     font-size: 22px;
     margin: 0;
 }

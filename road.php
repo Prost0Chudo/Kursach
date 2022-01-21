@@ -20,6 +20,9 @@ error_reporting(E_ALL & ~E_NOTICE);
             <img src="images/ccfc35674a6649b6c0c170554b7d287b.svg">
             </div>
             <div class="menu-txt">
+            <ul><a href = "navigate.php">Узнать время приезда<br> пожарно-спасательного гарнизона<br><br> НАЖМИ НА МЕНЯ</a></ul>
+            </div>
+            <div class = "go-to-menu">
             <ul><a href = "index.php">Вернуться на главную</a></ul>
             </div>
         </div>
@@ -46,7 +49,7 @@ if($number==1) {
 
 var myMap = new ymaps.Map("map", {
 center: [<?php echo $map_element['point']; ?>],
-zoom: 12
+zoom: 10
 }, {
 searchControlProvider: 'yandex#search'
 });
@@ -73,5 +76,10 @@ myMap.setBounds(myCollection.getBounds(),{checkZoomRange:true, zoomMargin:9});
 //}
 ?>
 </script>
+<footer class="footer">
+        <div class="container">
+            <b><i>&copy; Информация получена из карт Москвы.</i></b>
+        </div>
+    </footer>
 </body>
 </html>

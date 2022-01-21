@@ -5,13 +5,17 @@
 }
 
 .menu-txt{
-    text-align: left;
-    font-size: 50px;
+    text-align: center;
+    font-size: 40px;
 }
 
+.go-to-menu{
+    text-align: center;
+    font-size: 50px;
+}
 header{
     margin: 0;
-    background-color: whitesmoke;
+    background-color: rgba(245, 77, 77, 0.425);
 }
 
 header:hover{
@@ -27,6 +31,7 @@ header:hover{
     width: 300px;
     height: 300px;
     justify-content: left;
+    margin: 0;
 }
 
 ul{
@@ -56,4 +61,16 @@ li:hover{
 body{
     margin: 0;
     background-color: grey;
+}
+
+body{
+    background-color: rgba(245, 77, 77, 0.63);
+}
+footer{
+    padding: 20px;
+    text-align: center;
+    color: black;
+    background-color: rgba(245, 77, 77, 0.425);
+    font-size: 22px;
+    margin: 0;
 }
