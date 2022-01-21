@@ -20,7 +20,7 @@ error_reporting(E_ALL & ~E_NOTICE);
             <img src="images/ccfc35674a6649b6c0c170554b7d287b.svg">
             </div>
             <div class="menu-txt">
-            <ul><a href = "navigate.php">Узнать время приезда<br> пожарно-спасательного гарнизона<br><br> НАЖМИ НА МЕНЯ</a></ul>
+            <ul><a href = "navigate.php">Узнать время приезда<br>пожарно-спасательного гарнизона</a></ul>
             </div>
             <div class = "go-to-menu">
             <ul><a href = "index.php">Вернуться на главную</a></ul>
@@ -29,7 +29,7 @@ error_reporting(E_ALL & ~E_NOTICE);
     </nav>
 </div>
 </header>
-<div id="map" style="width: 100%; height:500px"></div>
+<div id="map" style="width: 100%; height:600px"></div>
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=17c1d609-afcb-47ea-92bf-749c4f395a2f"></script>
 <?php
 $sql_map ="SELECT * FROM `objects`";

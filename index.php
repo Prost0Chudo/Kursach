@@ -20,7 +20,7 @@ error_reporting(E_ALL & ~E_NOTICE);
             <img src="images/ccfc35674a6649b6c0c170554b7d287b.svg">
             </div>
             <div class="menu-txt">
-            <ul><a href = "road.php">Посмотреть все<br> пожарно-спасательные гарнизоны<br><br> НАЖМИ НА МЕНЯ</a></ul>
+            <ul><a href = "road.php">Узнать месторасположение всех<br> пожарно-спасательные гарнизоны</a></ul>
             </div>
         </div>
     </nav>
