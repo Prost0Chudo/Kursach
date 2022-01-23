@@ -64,9 +64,34 @@ $dist = $ad * EARTH_RADIUS;
  
 return $dist;
 }
+?>
+<div class="answer">
+<i>Введите Улицу и номер дома</i>
+<form name="a" method="GET" action="<?=$_SERVER['PHP_SELF']?>" width = 200px padding = 20px>
+<input class = "form_input" name="Street" placeholder = "Пример: Неделина">
+<input class = "form_input" name="House" placeholder = "Пример: д.24">
+<input class = "form_button" type="submit">
+</form>
+<?php
+$city = "Москва";
+$street = $_GET['Street'];
+$house = $_GET['House'];
+$address = $city.", ".$street.", ".$house;
+ 
+$ch = curl_init('https://geocode-maps.yandex.ru/1.x/?apikey=17c1d609-afcb-47ea-92bf-749c4f395a2f&format=json&geocode=' . urlencode($address));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_HEADER, false);
+$res = curl_exec($ch);
+curl_close($ch);
+ 
+$res = json_decode($res, true);
+$coordinates = $res['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos'];
+$coordinates = explode(' ', $coordinates);
+print_r($coordinates);
 $min = 1000000000000000000000;
-$lat = 55.874272;
-$long = 37.575274;
+$lat = $coordinates[1];
+$long = $coordinates[0];
 $sql_map ="SELECT * FROM `objects`";
 $result_tmap = mysqli_query($connect, $sql_map);
 while ($map_dot = mysqli_fetch_assoc($result_tmap)) {
