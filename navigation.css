@@ -1,7 +1,17 @@
+html,body{
+    margin: 0;
+    background-color: gray;
+}
 .menu{
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.answer{
+    text-align: center;
+    color: whitesmoke;
+    font-size: 40px;
 }
 
 .menu-txt{
@@ -15,7 +25,7 @@
 }
 header{
     margin: 0;
-    background-color: rgba(245, 77, 77, 0.425);
+    background-color: rgba(245, 77, 77, 0.637);
 }
 
 header:hover{
@@ -56,4 +66,74 @@ a:hover{
 
 li:hover{
     background-color: lightcoral;
+}
+footer{
+    padding: 20px;
+    text-align: center;
+    color: black;
+    background-color: rgba(245, 77, 77, 0.425);
+    font-size: 22px;
+    margin: 0;
+}
+
+
+form{
+    width: 300px;
+    padding: 32px; 
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgb(153, 50, 122);
+    background-color: rgb(138, 138, 202);
+    font-family: sans-serif; 
+    letter-spacing: 1px; 
+    margin: 10px auto;
+}
+
+.form_button {
+    padding: 10px 20px;
+    border: none; 
+    border-radius: 5px; 
+    font-family: sans-serif;
+    letter-spacing: 1px;
+    font-size: 16xp;
+    color :#fff ;
+    background-color: #1bb6cac7; 
+    outline: none;
+    cursor: pointer; 
+    transition: 0.3s; 
+}
+
+.form_button:hover{
+    background-color: rgb(218, 38, 164); 
+}
+
+.form_input {
+    width: 100%;
+    padding: 0 0 10px 0;
+    border: none; 
+    border-bottom: 1px solid #e0e0e0; 
+    background-color: transparent;
+    outline: none;
+    transition: 0.3s;
+    font-size: 22px;
+}
+
+input::placeholder {
+    font-size: 22px;
+    color: rgb(231, 216, 216);
+}
+input::-webkit-input-placeholder {
+    font-size: 22px;
+    color: rgb(231, 216, 216);
+}
+input::-moz-placeholder {
+    font-size: 22px;
+    color: rgb(231, 216, 216);
+}
+input:-moz-placeholder {
+    font-size: 22px;
+    color: rgb(231, 216, 216);
+}
+input:-ms-input-placeholder {
+    font-size: 22px;
+    color: rgb(231, 216, 216);
 }

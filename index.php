@@ -54,11 +54,12 @@ error_reporting(E_ALL & ~E_NOTICE);
 </div>
 <div class = "db">
     <?php
+    if(isset($_GET['a'])){
     $a = $_GET['a'];
     $result = mysqli_query($connect, "SELECT * FROM `Call_Mounth` WHERE dataReport = '".$a."'");
     $stroka = mysqli_fetch_assoc($result);
-    ?>
-    <p style= "margin:0"><i>Количество вызовов пожарно-спасательных гарнизонов в <?php echo $a ?>:<br> <?php echo $stroka['callsCount'];?></i><p>
+    echo '<p style= "margin:0"><i>Количество вызовов пожарно-спасательных гарнизонов в '.$a.':<br>'.$stroka['callsCount'].'</i><p>';
+}?>
 </div>
 </section>
 <footer class="footer">

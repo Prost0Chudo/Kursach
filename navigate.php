@@ -12,6 +12,7 @@ error_reporting(E_ALL & ~E_NOTICE);
     <title>navigate</title>
 </head>
 <body>
+<header>
 <div class="container">
     <nav>
         <div class="menu">
@@ -74,124 +75,132 @@ return $dist;
 </form>
 <?php
 $city = "Москва";
-$street = $_GET['Street'];
-$house = $_GET['House'];
-$address = $city.", ".$street.", ".$house;
- 
-$ch = curl_init('https://geocode-maps.yandex.ru/1.x/?apikey=17c1d609-afcb-47ea-92bf-749c4f395a2f&format=json&geocode=' . urlencode($address));
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_HEADER, false);
-$res = curl_exec($ch);
-curl_close($ch);
- 
-$res = json_decode($res, true);
-$coordinates = $res['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos'];
-$coordinates = explode(' ', $coordinates);
-$min = 10000000000000000000000;
-$minLat = 0;
-$min2Lat = 0;
-$min3Lat = 0;
-$minLong = 0;
-$min2Long = 0;
-$min3Long = 0;
-$min2 = 1000000000000000000000;
-$min3 = 100000000000000000000;
-$lat = $coordinates[1];
-$long = $coordinates[0];
+if(isset($_GET['Street']) and isset($_GET['House'])){
 
-$sql_map ="SELECT * FROM `objects`";
-$result_tmap = mysqli_query($connect, $sql_map);
-while ($map_dot = mysqli_fetch_assoc($result_tmap)) {
-    $point = $map_dot['point'];
-    $arrPoint = explode(", ", $point);
-    $lat1 = $arrPoint[0];
-    $long1 = $arrPoint[1];
+    $street = $_GET['Street'];
+    $house = $_GET['House'];
+    $address = $city.", ".$street.", ".$house;
+ 
+    $ch = curl_init('https://geocode-maps.yandex.ru/1.x/?apikey=17c1d609-afcb-47ea-92bf-749c4f395a2f&format=json&geocode=' . urlencode($address));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    $res = curl_exec($ch);
+    curl_close($ch);
+ 
+    $res = json_decode($res, true);
+    $coordinates = $res['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos'];
+    $coordinates = explode(' ', $coordinates);
+    $min = 10000000000000000000000;
+    $minLat = 0;
+    $min2Lat = 0;
+    $min3Lat = 0;
+    $minLong = 0;
+    $min2Long = 0;
+    $min3Long = 0;
+    $min2 = 1000000000000000000000;
+    $min3 = 100000000000000000000;
+    $lat = $coordinates[1];
+    $long = $coordinates[0];
 
-    $S = calculateTheDistance($lat1, $long1, $lat, $long);
-    if($min > $S){
-        $prev = $min;
-        $prevLat = $minLat;
-        $prevLong = $minLong;
-        $min = $S;
-        $minLat = $lat1;
-        $minLong = $long1;
-        if($min2 > $prev and $min != $prev){
-            $boof = $min2;
-            $boofLat = $min2Lat;
-            $boofLong = $min2Long;
-            $min2 = $prev;
-            $min2Lat = $prevLat;
-            $min2Long = $prevLong;
-            $prev = $boof;
-            $prevLat = $boofLat;
-            $prevLong = $boofLong;
+    $sql_map ="SELECT * FROM `objects`";
+    $result_tmap = mysqli_query($connect, $sql_map);
+    while ($map_dot = mysqli_fetch_assoc($result_tmap)) {
+        $point = $map_dot['point'];
+        $arrPoint = explode(", ", $point);
+        $lat1 = $arrPoint[0];
+        $long1 = $arrPoint[1];
+
+        $S = calculateTheDistance($lat1, $long1, $lat, $long);
+        if($min > $S){
+            $prev = $min;
+            $prevLat = $minLat;
+            $prevLong = $minLong;
+            $min = $S;
+            $minLat = $lat1;
+            $minLong = $long1;
+            if($min2 > $prev and $min != $prev){
+                $boof = $min2;
+                $boofLat = $min2Lat;
+                $boofLong = $min2Long;
+                $min2 = $prev;
+                $min2Lat = $prevLat;
+                $min2Long = $prevLong;
+                $prev = $boof;
+                $prevLat = $boofLat;
+                $prevLong = $boofLong;
+                if($min3 > $prev and $min2 != $prev){
+                    $min3 = $prev;
+                    $min3Lat = $prevLat;
+                    $min3Long = $prevLong;
+                }
+            }
+        }
+        if($min2 > $S and $min < $S){
+            $prev = $min2;
+            $prevLat = $min2Lat;
+            $prevLong = $min2Long;
+            $min2 = $S;
+            $min2Lat = $lat1;
+            $min2Long = $long1;
             if($min3 > $prev and $min2 != $prev){
                 $min3 = $prev;
                 $min3Lat = $prevLat;
-                $min3Lat = $prevLong;
+                $min3Long = $prevLong;
             }
         }
-    }
-    if($min2 > $S and $min < $S){
-        $prev = $min2;
-        $prevLat = $min2Lat;
-        $prevLong = $min2Long;
-        $min2 = $S;
-        $min2Lat = $lat1;
-        $min2Long = $long1;
-        if($min3 > $prev and $min2 != $prev){
-            $min3 = $prev;
-            $min3Lat = $prevLat;
-            $min3Lat = $prevLong;
+        if($min3 > $S and $min2 < $S and $min < $S){
+            $min3 = $S;
+            $min3Lat = $lat1;
+            $min3Long = $long1;
         }
     }
-    if($min3 > $S and $min2 < $S and $min < $S){
-        $min3 = $S;
-        $min3Lat = $lat1;
-        $min3Long = $long1;
-    }
-}
-?> <i><p>Расстояние между вашим домом и ближайшей пожарной станцией: <?php echo calculateTheDistance($minLat, $minLong, $lat, $long) . " метров";?></p></i>
-<div id="map" style="width: 100%; height:600px"></div>
+    ?> <i><p>Расстояние между вашим домом и ближайшей пожарной станцией: <?php echo calculateTheDistance($minLat, $minLong, $lat, $long) . " метров";?></p></i>
+    <div id="map" style="width: 100%; height:600px"></div>
  
- <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=17c1d609-afcb-47ea-92bf-749c4f395a2f" type="text/javascript"></script>
- <script type="text/javascript">
- ymaps.ready(init);
- function init() {
-     var myMap = new ymaps.Map("map", {
-         center: [<?php echo $lat;?>, <?php echo $long; ?>],
-         zoom: 16
-     }, {
-         searchControlProvider: 'yandex#search'
-     });
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=17c1d609-afcb-47ea-92bf-749c4f395a2f" type="text/javascript"></script>
+    <script type="text/javascript">
+    ymaps.ready(init);
+    function init() {
+        var myMap = new ymaps.Map("map", {
+            center: [<?php echo $lat;?>, <?php echo $long; ?>],
+            zoom: 16
+        }, {
+            searchControlProvider: 'yandex#search'
+        });
   
-     var myCollection = new ymaps.GeoObjectCollection(); 
+        var myCollection = new ymaps.GeoObjectCollection(); 
   
-     // Добавим метку красного цвета.
-     var myPlacemark = new ymaps.Placemark([<?php echo $lat;?>, <?php echo $long; ?>], {}, {
-         preset: 'islands#icon',
-         iconColor: '#ff0000'
-     });
-     var myPlacemark1 = new ymaps.Placemark([<?php echo $minLat;?>, <?php echo $minLong; ?>], {}, {
-         preset: 'islands#icon',
-         iconColor: '#aaa'
-     });
-     var myPlacemark2 = new ymaps.Placemark([<?php echo $min2Lat;?>, <?php echo $min2Long; ?>], {}, {
-         preset: 'islands#icon',
-         iconColor: '#aaa'
-     });
-     var myPlacemark3 = new ymaps.Placemark([<?php echo $min3Lat;?>, <?php echo $min3Long; ?>], {}, {
-         preset: 'islands#icon',
-         iconColor: '#aaa'
-     });
-     myCollection.add(myPlacemark);
-     myCollection.add(myPlacemark1);
-     myCollection.add(myPlacemark2);
-     myCollection.add(myPlacemark3);
+        // Добавим метку красного цвета.
+        var myPlacemark = new ymaps.Placemark([<?php echo $lat;?>, <?php echo $long; ?>], {}, {
+            preset: 'islands#icon',
+            iconColor: '#ff0000'
+        });
+        var myPlacemark1 = new ymaps.Placemark([<?php echo $minLat;?>, <?php echo $minLong; ?>], {}, {
+            preset: 'islands#icon',
+            iconColor: '#aaa'
+        });
+        var myPlacemark2 = new ymaps.Placemark([<?php echo $min2Lat;?>, <?php echo $min2Long; ?>], {}, {
+            preset: 'islands#icon',
+            iconColor: '#aaa'
+        });
+        var myPlacemark3 = new ymaps.Placemark([<?php echo $min3Lat;?>, <?php echo $min3Long; ?>], {}, {
+            preset: 'islands#icon',
+            iconColor: '#aaa'
+        });
+        myCollection.add(myPlacemark);
+        myCollection.add(myPlacemark1);
+        myCollection.add(myPlacemark2);
+        myCollection.add(myPlacemark3);
   
-     myMap.geoObjects.add(myCollection);
- }
-</script>
+        myMap.geoObjects.add(myCollection);
+    }
+</script><?php
+}?>
+<footer class="footer">
+        <div class="container">
+            <b><i>&copy; Информация получена из карт Москвы.</i></b>
+        </div>
+    </footer>
 </body>
 </html>
