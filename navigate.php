@@ -88,10 +88,18 @@ curl_close($ch);
 $res = json_decode($res, true);
 $coordinates = $res['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos'];
 $coordinates = explode(' ', $coordinates);
-print_r($coordinates);
-$min = 1000000000000000000000;
+$min = 10000000000000000000000;
+$minLat = 0;
+$min2Lat = 0;
+$min3Lat = 0;
+$minLong = 0;
+$min2Long = 0;
+$min3Long = 0;
+$min2 = 1000000000000000000000;
+$min3 = 100000000000000000000;
 $lat = $coordinates[1];
 $long = $coordinates[0];
+
 $sql_map ="SELECT * FROM `objects`";
 $result_tmap = mysqli_query($connect, $sql_map);
 while ($map_dot = mysqli_fetch_assoc($result_tmap)) {
@@ -102,9 +110,46 @@ while ($map_dot = mysqli_fetch_assoc($result_tmap)) {
 
     $S = calculateTheDistance($lat1, $long1, $lat, $long);
     if($min > $S){
+        $prev = $min;
+        $prevLat = $minLat;
+        $prevLong = $minLong;
         $min = $S;
         $minLat = $lat1;
         $minLong = $long1;
+        if($min2 > $prev and $min != $prev){
+            $boof = $min2;
+            $boofLat = $min2Lat;
+            $boofLong = $min2Long;
+            $min2 = $prev;
+            $min2Lat = $prevLat;
+            $min2Long = $prevLong;
+            $prev = $boof;
+            $prevLat = $boofLat;
+            $prevLong = $boofLong;
+            if($min3 > $prev and $min2 != $prev){
+                $min3 = $prev;
+                $min3Lat = $prevLat;
+                $min3Lat = $prevLong;
+            }
+        }
+    }
+    if($min2 > $S and $min < $S){
+        $prev = $min2;
+        $prevLat = $min2Lat;
+        $prevLong = $min2Long;
+        $min2 = $S;
+        $min2Lat = $lat1;
+        $min2Long = $long1;
+        if($min3 > $prev and $min2 != $prev){
+            $min3 = $prev;
+            $min3Lat = $prevLat;
+            $min3Lat = $prevLong;
+        }
+    }
+    if($min3 > $S and $min2 < $S and $min < $S){
+        $min3 = $S;
+        $min3Lat = $lat1;
+        $min3Long = $long1;
     }
 }
 ?> <i><p>Расстояние между вашим домом и ближайшей пожарной станцией: <?php echo calculateTheDistance($minLat, $minLong, $lat, $long) . " метров";?></p></i>
@@ -132,8 +177,18 @@ while ($map_dot = mysqli_fetch_assoc($result_tmap)) {
          preset: 'islands#icon',
          iconColor: '#aaa'
      });
+     var myPlacemark2 = new ymaps.Placemark([<?php echo $min2Lat;?>, <?php echo $min2Long; ?>], {}, {
+         preset: 'islands#icon',
+         iconColor: '#aaa'
+     });
+     var myPlacemark3 = new ymaps.Placemark([<?php echo $min3Lat;?>, <?php echo $min3Long; ?>], {}, {
+         preset: 'islands#icon',
+         iconColor: '#aaa'
+     });
      myCollection.add(myPlacemark);
      myCollection.add(myPlacemark1);
+     myCollection.add(myPlacemark2);
+     myCollection.add(myPlacemark3);
   
      myMap.geoObjects.add(myCollection);
  }
