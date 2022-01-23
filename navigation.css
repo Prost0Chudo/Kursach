@@ -42,6 +42,7 @@ header:hover{
     height: 300px;
     justify-content: left;
     margin: 0;
+    margin-block-end: auto;
 }
 
 ul{
