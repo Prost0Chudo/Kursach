@@ -67,7 +67,7 @@ return $dist;
 }
 ?>
 <div class="answer">
-<i>Введите Улицу и номер дома</i>
+Введите Улицу и номер дома
 <form name="a" method="GET" action="<?=$_SERVER['PHP_SELF']?>" width = 200px padding = 20px>
 <input class = "form_input" name="Street" placeholder = "Пример: Неделина">
 <input class = "form_input" name="House" placeholder = "Пример: д.24">
@@ -155,7 +155,9 @@ if(isset($_GET['Street']) and isset($_GET['House'])){
             $min3Long = $long1;
         }
     }
-    ?> <i><p>Расстояние между вашим домом и ближайшей пожарной станцией: <?php echo calculateTheDistance($minLat, $minLong, $lat, $long) . " метров";?></p></i>
+    ?> 
+    <p>Расстояние между вашим домом и ближайшей пожарной станцией: <?php echo round(calculateTheDistance($minLat, $minLong, $lat, $long), 0) . " метров.";?></p>
+    <p>Среднее время приезда пожарной части к вашему дому: <?php echo round(round(calculateTheDistance($minLat, $minLong, $lat, $long), 0)/12.5, 0) . " секунд.";?></p>
     <div id="map" style="width: 100%; height:600px"></div>
  
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=17c1d609-afcb-47ea-92bf-749c4f395a2f" type="text/javascript"></script>
@@ -171,22 +173,43 @@ if(isset($_GET['Street']) and isset($_GET['House'])){
   
         var myCollection = new ymaps.GeoObjectCollection(); 
   
-        // Добавим метку красного цвета.
-        var myPlacemark = new ymaps.Placemark([<?php echo $lat;?>, <?php echo $long; ?>], {}, {
-            preset: 'islands#icon',
-            iconColor: '#ff0000'
+        var myPlacemark = new ymaps.Placemark([<?php echo $lat;?>, <?php echo $long; ?>], {balloonContentHeader: "Ваш Дом"}, {
+            preset: 'islands#blueHomeCircleIcon',
+            iconColor: '#4d6b00'
         });
-        var myPlacemark1 = new ymaps.Placemark([<?php echo $minLat;?>, <?php echo $minLong; ?>], {}, {
-            preset: 'islands#icon',
-            iconColor: '#aaa'
+        <?php
+        $sql_met ="SELECT name FROM `objects` WHERE point = \"".$minLat.", ".$minLong."\"";
+        $result_met = mysqli_query($connect, $sql_met);
+        $met = mysqli_fetch_assoc($result_met);
+        $metS = (string) $met['name'];
+        ?>
+        var myPlacemark1 = new ymaps.Placemark([<?php echo $minLat;?>, <?php echo $minLong; ?>],{balloonContentHeader: "<?php echo $metS ?>"}, {
+            
+            iconLayout: 'default#image',
+            iconImageHref: 'images/пожар.png',
+            iconImageSize: [60, 60]
         });
-        var myPlacemark2 = new ymaps.Placemark([<?php echo $min2Lat;?>, <?php echo $min2Long; ?>], {}, {
-            preset: 'islands#icon',
-            iconColor: '#aaa'
+        <?php
+        $sql_met ="SELECT name FROM `objects` WHERE point = \"".$min2Lat.", ".$min2Long."\"";
+        $result_met = mysqli_query($connect, $sql_met);
+        $met = mysqli_fetch_assoc($result_met);
+        $metS = (string) $met['name'];
+        ?>
+        var myPlacemark2 = new ymaps.Placemark([<?php echo $min2Lat;?>, <?php echo $min2Long; ?>], {balloonContentHeader: "<?php echo $metS ?>"}, {
+            iconLayout: 'default#image',
+            iconImageHref: 'images/пожар.png',
+            iconImageSize: [60, 60]
         });
-        var myPlacemark3 = new ymaps.Placemark([<?php echo $min3Lat;?>, <?php echo $min3Long; ?>], {}, {
-            preset: 'islands#icon',
-            iconColor: '#aaa'
+        <?php
+        $sql_met ="SELECT name FROM `objects` WHERE point = \"".$min3Lat.", ".$min3Long."\"";
+        $result_met = mysqli_query($connect, $sql_met);
+        $met = mysqli_fetch_assoc($result_met);
+        $metS = (string) $met['name'];
+        ?>
+        var myPlacemark3 = new ymaps.Placemark([<?php echo $min3Lat;?>, <?php echo $min3Long; ?>], {balloonContentHeader: "<?php echo $metS ?>"}, {
+            iconLayout: 'default#image',
+            iconImageHref: 'images/пожар.png',
+            iconImageSize: [60, 60]
         });
         myCollection.add(myPlacemark);
         myCollection.add(myPlacemark1);
@@ -199,7 +222,7 @@ if(isset($_GET['Street']) and isset($_GET['House'])){
 }?>
 <footer class="footer">
         <div class="container">
-            <b><i>&copy; Информация получена из карт Москвы.</i></b>
+            <b>&copy; Информация получена из карт Москвы.</b>
         </div>
     </footer>
 </body>

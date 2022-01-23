@@ -46,7 +46,7 @@ error_reporting(E_ALL & ~E_NOTICE);
 </section>
 <section>
 <div class="answer">
-<i>Введите дату</i>
+Введите дату
 <form name="a" method="GET" action="<?=$_SERVER['PHP_SELF']?>" width = 200px padding = 20px>
 <input class = "form_input" name="a" placeholder = "Пример: 2020-01-01">
 <input class = "form_button" type="submit">
@@ -58,13 +58,13 @@ error_reporting(E_ALL & ~E_NOTICE);
     $a = $_GET['a'];
     $result = mysqli_query($connect, "SELECT * FROM `Call_Mounth` WHERE dataReport = '".$a."'");
     $stroka = mysqli_fetch_assoc($result);
-    echo '<p style= "margin:0"><i>Количество вызовов пожарно-спасательных гарнизонов в '.$a.':<br>'.$stroka['callsCount'].'</i><p>';
+    echo '<p style= "margin:0">Количество вызовов пожарно-спасательных гарнизонов в '.$a.':<br>'.$stroka['callsCount'].'<p>';
 }?>
 </div>
 </section>
 <footer class="footer">
         <div class="container">
-            <b><i>&copy; Информация получена из баз открытых данных Москвы.</i></b>
+            <b>&copy; Информация получена из баз открытых данных Москвы.</b>
         </div>
     </footer>
 </body>

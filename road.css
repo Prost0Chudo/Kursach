@@ -15,11 +15,11 @@
 }
 header{
     margin: 0;
-    background-color: rgba(245, 77, 77, 0.637);
+    background-color: #c33124;
 }
 
 header:hover{
-    background-color: hotpink;
+    background-color: chocolate;
 }
 
 .container{
@@ -30,8 +30,8 @@ header:hover{
 .image-svg{
     width: 300px;
     height: 300px;
-    justify-content: left;
-    margin: 0;
+    justify-content: center;
+    margin: auto;
 }
 
 ul{
@@ -50,7 +50,7 @@ a{
 }
 
 a:hover{
-    color: whitesmoke;
+    color: black;
     text-decoration: none;
 }
 
@@ -64,13 +64,13 @@ body{
 }
 
 body{
-    background-color: rgba(245, 77, 77, 0.63);
+    background-color: #e8a628;
 }
 footer{
     padding: 21px;
     text-align: center;
     color: black;
-    background-color: rgba(245, 77, 77, 0.425);
+    background-color: #c33124;
     font-size: 22px;
     margin: 0;
 }

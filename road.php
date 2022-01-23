@@ -59,9 +59,11 @@ searchControlProvider: 'yandex#search'
 var myCollection = new ymaps.GeoObjectCollection();
 
 // Добавим метку красного цвета.
-var myPlacemark = new ymaps.Placemark([
-<?php echo $map_element['point']; ?>
-], {}, {});
+var myPlacemark = new ymaps.Placemark([<?php echo $map_element['point']; ?>], {}, {
+            iconLayout: 'default#image',
+            iconImageHref: 'images/пожар.png',
+            iconImageSize: [60, 60]
+        });
 myCollection.add(myPlacemark);
 
 myMap.geoObjects.add(myCollection);
@@ -78,7 +80,7 @@ myMap.setBounds(myCollection.getBounds(),{checkZoomRange:true, zoomMargin:9});
 </script>
 <footer class="footer">
         <div class="container">
-            <b><i>&copy; Информация получена из карт Москвы.</i></b>
+            <b>&copy; Информация получена из карт Москвы.</b>
         </div>
     </footer>
 </body>
